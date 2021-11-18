@@ -85,5 +85,5 @@ fn main() {
     info!("found module: {:?}", module_info);
 
     // cheating 
-    process.virt_mem.virt_write(Address::from(0xE9474FF750 as u64), &100000000);
+    process.virt_mem.virt_write(Address::from(0xE9474FF750 as u64), &100000000).unwrap();
 }
