@@ -85,5 +85,9 @@ fn main() {
     info!("found module: {:?}", module_info);
 
     // cheating 
-    process.virt_mem.virt_write(Address::from(0xE9474FF750 as u64), &100000000).unwrap();
+    process.virt_mem.virt_write(Address::from(0x238E1EF9E0 as u64), &100000000).unwrap();
+
+    let winver = Win32Version::new(10, 0, 19044);
+    let a = Win32Offsets::builder()
+        .symbol_store(SymbolStore::new());
 }
