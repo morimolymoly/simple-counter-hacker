@@ -98,6 +98,19 @@ fn main() {
 
     let mut sc = StackSearch::new(stackbase, stacklimit, process.clone());
 
+    let win_branch_address = process.proc_info.section_base + 0x1119;
+    info!("win branch address: 0x{:x}", win_branch_address);
+    
+    process.virt_mem.virt_write_raw(win_branch_address, &[0x90, 0x90]).unwrap();
+    
+    let hex_win = process.virt_mem.virt_read_raw(win_branch_address - 0xa, 60).unwrap();
+
+    let mut hexstr = String::new();
+    for hex in hex_win {
+        hexstr.push_str(format!(" {:x}", hex).as_str());
+    }
+    info!("{}", hexstr);
+
     loop {
         println!("memoy search!");
         println!("input target!");
