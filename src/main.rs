@@ -7,6 +7,8 @@ use memflow_win32::*;
 use clap::*;
 use log::{info, Level};
 
+use crate::engine::stacksearch::StackSearch;
+
 fn main() {
     println!("Simple counter hacker!");
 
@@ -84,8 +86,17 @@ fn main() {
     let module_info = process.module_info("simplecounter.exe").unwrap();
     info!("found module: {:?}", module_info);
 
-    let process_info = process.proc_info;
+    let process_info = process.clone().proc_info;
     let stackbase = process.virt_mem
         .virt_read_addr64(process_info.teb.unwrap_or_default() + 8).unwrap();
     info!("stackbase 0x{:x}", stackbase);
+    let stacklimit = process.virt_mem
+        .virt_read_addr64(process_info.teb.unwrap_or_default() + 16).unwrap();
+    info!("stacklimit 0x{:x}", &stacklimit);
+
+    let mut sc = StackSearch::new(stackbase, stacklimit, process.clone());
+
+    loop {
+        sc.search_u64(10);
+    }
 }
