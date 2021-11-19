@@ -61,6 +61,7 @@ impl<T: VirtualMemory> StackSearch<T> {
         let addr = self.target_u32.keys().clone().collect::<Vec<_>>();
         if addr.len() == 1 {
             self.process.virt_mem.virt_write(Address::from(*addr[0]), &value).unwrap();
+            self.target_u32.clear();
         } else {
             println!("もっと探せ！！！");
         }

@@ -1,6 +1,3 @@
-mod engine;
-use engine::*;
-
 use std::io;
 
 use memflow::*;
@@ -9,6 +6,7 @@ use memflow_win32::*;
 use clap::*;
 use log::{info, Level};
 
+mod engine;
 use crate::engine::stacksearch::StackSearch;
 
 fn main() {
@@ -118,7 +116,6 @@ fn main() {
         let mut target = String::new();
         io::stdin().read_line(&mut target).expect("Failed to get target value!");
 
-        println!("{}", target);
         let target = target.trim().parse::<u32>().unwrap();
 
         let size = sc.search_u32(target);
