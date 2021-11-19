@@ -1,6 +1,8 @@
 mod engine;
 use engine::*;
 
+use std::io;
+
 use memflow::*;
 use memflow_win32::*;
 
@@ -97,6 +99,25 @@ fn main() {
     let mut sc = StackSearch::new(stackbase, stacklimit, process.clone());
 
     loop {
-        sc.search_u64(10);
+        println!("memoy search!");
+        println!("input target!");
+
+        let mut target = String::new();
+        io::stdin().read_line(&mut target).expect("Failed to get target value!");
+
+        println!("{}", target);
+        let target = target.trim().parse::<u32>().unwrap();
+
+        let size = sc.search_u32(target);
+
+        if size == 1 {
+            println!("memoy write cheat!");
+            println!("input value!");
+    
+            let mut value = String::new();
+            io::stdin().read_line(&mut value).expect("Failed to get cheat value!");
+            let value = value.trim().parse::<i32>().unwrap();
+            sc.cheat(value);
+        }
     }
 }
