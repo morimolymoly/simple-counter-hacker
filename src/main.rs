@@ -84,10 +84,8 @@ fn main() {
     let module_info = process.module_info("simplecounter.exe").unwrap();
     info!("found module: {:?}", module_info);
 
-    // cheating 
-    process.virt_mem.virt_write(Address::from(0x238E1EF9E0 as u64), &100000000).unwrap();
-
-    let winver = Win32Version::new(10, 0, 19044);
-    let a = Win32Offsets::builder()
-        .symbol_store(SymbolStore::new());
+    let process_info = process.proc_info;
+    let stackbase = process.virt_mem
+        .virt_read_addr64(process_info.teb.unwrap_or_default() + 8).unwrap();
+    info!("stackbase 0x{:x}", stackbase);
 }
